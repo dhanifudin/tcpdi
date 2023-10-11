@@ -164,7 +164,7 @@ class TCPDI extends FPDF_TPL {
      * @return int Index of imported page - to use with fpdf_tpl::useTemplate()
      */
     function importPage($pageno, $boxName = '/CropBox') {
-        if ($this->_intpl) {
+          if ($this->_intpl) {
             return $this->error('Please import the desired pages before creating a new template.');
         }
 
@@ -190,7 +190,7 @@ class TCPDI extends FPDF_TPL {
          * TrimBox: Default -> CropBox
          * ArtBox: Default -> CropBox
          */
-        if (!isset($pageboxes[$boxName]) && ($boxName == '/BleedBox' || $boxName == '/TrimBox' || $boxName == '/ArtBox'))
+        if (!isset($pageboxes[$boxName]) && ($boxName == '/BleedBox'  $boxName == '/TrimBox'  $boxName == '/ArtBox'))
             $boxName = '/CropBox';
         if (!isset($pageboxes[$boxName]) && $boxName == '/CropBox')
             $boxName = '/MediaBox';
@@ -221,7 +221,7 @@ class TCPDI extends FPDF_TPL {
         $rotation = $parser->getPageRotation($pageno);
         $tpl['_rotationAngle'] = 0;
         if (isset($rotation[1]) && ($angle = $rotation[1] % 360) != 0) {
-        	$steps = $angle / 90;
+          $steps = $angle / 90;
 
             $_w = $tpl['w'];
             $_h = $tpl['h'];
@@ -229,13 +229,18 @@ class TCPDI extends FPDF_TPL {
             $tpl['h'] = $steps % 2 == 0 ? $_h : $_w;
 
             if ($angle < 0)
-            	$angle += 360;
+              $angle += 360;
 
-        	$tpl['_rotationAngle'] = $angle * -1;
+          $tpl['_rotationAngle'] = $angle * -1;
         }
 
         $this->_importedPages[$pageKey] = $this->tpl;
-        return $this->tpl;
+
+        if($tpl['buffer'] == 99999){
+            return $tpl['buffer'];
+        } else {
+            return $this->tpl;
+        }
     }
 
     function setPageFormatFromTemplatePage($pageno, $orientation) {
