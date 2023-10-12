@@ -190,7 +190,7 @@ class TCPDI extends FPDF_TPL {
          * TrimBox: Default -> CropBox
          * ArtBox: Default -> CropBox
          */
-        if (!isset($pageboxes[$boxName]) && ($boxName == '/BleedBox'  $boxName == '/TrimBox'  $boxName == '/ArtBox'))
+        if (!isset($pageboxes[$boxName]) && ($boxName == '/BleedBox' || $boxName == '/TrimBox' || $boxName == '/ArtBox'))
             $boxName = '/CropBox';
         if (!isset($pageboxes[$boxName]) && $boxName == '/CropBox')
             $boxName = '/MediaBox';
