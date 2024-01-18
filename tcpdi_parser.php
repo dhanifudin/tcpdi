@@ -258,6 +258,9 @@ class tcpdi_parser
     {
         $params = $this->getObjectVal($this->xref['trailer'][1]['/Root']);
         $objref = null;
+        if ($params[1][1] == null) {
+            return null;
+        }
         foreach ($params[1][1] as $k => $v) {
             if ($k == '/Pages') {
                 $objref = $v;
@@ -333,7 +336,7 @@ class tcpdi_parser
         if ($offset == 0) {
             // find last startxref
             if (preg_match('/.*[\r\n]startxref[\s\r\n]+([0-9]+)[\s\r\n]+%%EOF/is', $this->pdfdata, $matches) == 0) {
-                $this->Error('Unable to find startxref');
+                return 99999;
             }
             $startxref = $matches[1];
         } else {
@@ -344,7 +347,7 @@ class tcpdi_parser
                 // startxref found
                 $startxref = $matches[1][0];
             } else {
-                $this->Error('Unable to find startxref');
+                return 99999;
             }
         }
         unset($matches);
